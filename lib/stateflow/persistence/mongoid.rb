@@ -9,7 +9,10 @@ module Stateflow
 
       module ClassMethods
         def add_scope(state)
-          scope state.name, where(:state => state.name.to_s)
+          state_name = state.name.to_s
+          singleton_class.instance_eval do
+            define_method(state_name) { where(:state => state_name) }
+          end
         end
       end
 
